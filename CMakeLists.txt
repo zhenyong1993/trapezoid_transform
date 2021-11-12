@@ -11,3 +11,4 @@ include_directories(include)
 
 add_executable(test_eigen test_eigen.cpp)
 add_executable(test_line test_line.cpp Geometry.cpp Quadrilateral.cpp)
+add_executable(test_find_max_rect test_find_max_rect.cpp find_max_rect.cpp)

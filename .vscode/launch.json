@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
+            "name": "(gdb) test_find_max_rect",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/test_line",
+            "program": "${workspaceFolder}/build/test_find_max_rect",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

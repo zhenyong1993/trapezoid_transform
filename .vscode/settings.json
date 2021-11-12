@@ -60,6 +60,7 @@
         "set": "cpp",
         "string": "cpp",
         "string_view": "cpp",
-        "cfloat": "cpp"
+        "cfloat": "cpp",
+        "stack": "cpp"
     }
 }
