@@ -54,7 +54,7 @@ void getData(double a_arg, double b_arg, double c_arg, double d_arg, double e_ar
     y4_k = -(d-f)/(b-e);
     y4_c = d - (e*(f-d))/(b-e);
 
-//ac上的点与上边长cd垂直距离H的函数H=kx+c的k值 
+//ac上的点与上边长ce垂直距离H的函数H=kx+c的k值 
     height_k = y1_k - y2_k;
     height_c = y1_c - y2_c;
 
@@ -70,19 +70,23 @@ void getData(double a_arg, double b_arg, double c_arg, double d_arg, double e_ar
     right_length_k = 1+(a*f)/(c*(b-a));
     right_length_c = -(a*a*f)/(c*(b-a)) - a;
 
-//c点经过斜率为k(resolution)的线到与ef点相交的坐标x,k=resolution
+//c点经过斜率为k(resolution)的线到与ef直线相交的坐标x,k=resolution
     double c_ef_x = (d - e*(f-d)/(b-e) - c)/(resolution + (d-f)/(b-e));
-//a点经过斜率为k(resolution)的线到与ef点相交的坐标x,k=resolution
+//a点经过斜率为k(resolution)的线到与ef直线相交的坐标x,k=resolution
     double a_ef_x = (d - e*(f-d)/(b-e) + a*resolution)/(resolution + (d-f)/(b-e));
+//c点到相交点的长
     c_ef = c_ef_x * resolution_diag / resolution_length;
+//a点到相交点的长
     a_ef = (a_ef_x-a) * resolution_diag / resolution_length;
-//    cout << "c_ef is " << c_ef << " , a_ef is " << a_ef << endl;
 
+//a点经过斜率为-k(resolution)的线到与ce直线相交的坐标x,k=resolution
     double a_ce_x = (a*resolution-c)/((d-c)/e + resolution);
+//f点经过斜率为-k(resolution)的线到与ce直线相交的坐标x,k=resolution
     double f_ce_x = (resolution*b + f - c)/((d-c)/e + resolution);
+//a点到相交点的长
     a_ce = (a - a_ce_x) * resolution_diag / resolution_length;
+//f点到相交点的长
     f_ce = (b - f_ce_x) * resolution_diag / resolution_length;
-//    cout << "a_ce is " << a_ce << " , f_ce is " << f_ce << endl;
 }
 
 double f1(double x)
