@@ -1,25 +1,25 @@
 #include "Quadrilateral.h"
 
-std::vector<Point2D> Quadrilateral::GetSections(const Point2D& a, const Point2D& b, unsigned int n)
+// 经过p点，斜率为k的直线和四边形的交点, isVertical为true表示直线斜率为无穷大，此时忽略k
+std::vector<Point2D> Quadrilateral::LineIntersections(const Point2D& p, bool isVertical, float k)
 {
-    std::vector<Point2D> sections;
+    std::vector<Point2D> intersections;
 
-    if (n == 0) {
-        return sections;
-    }
+    return intersections;
+}
 
-    sections.push_back(a);
-    if (a.Equals(b)) {
-        return sections;
-    }
+std::vector<Point2D> MaxInnerRect(const Point2D&p, float aspectRatio)
+{
+    std::vector<Point2D> vertices;
 
-    double x, y;
-    int i = 1;
-    for(; i <= n -1; i++) {
-        x = (b.x - a.x) * i / n + a.x;
-        y = (b.y - a.y) * i / n + a.y;
-        sections.push_back(Point2D(x, y));
-    }
+    // assert(vertices.size() == 2)
+    return vertices;
+}
 
-    return sections;
+std::vector<Point2D> MaxInnerRect(float aspectRatio)
+{
+    std::vector<Point2D> vertices;
+
+    // assert(vertices.size() == 4)
+    return vertices;
 }

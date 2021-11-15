@@ -21,6 +21,9 @@ public:
 
     static bool intersection(const Point2D& start1, const Point2D& end1, const Point2D& start2, const Point2D& end2, Point2D& intersection);
 
+    // a和b组成的线段n等分，输出等分点(如果a,b重合，输出a点，如果不重合，输出从a开始的n个点)
+    static std::vector<Point2D> GetSections(const Point2D& a, const Point2D& b, unsigned int n);
+
 private:
 
     static std::vector<double> getParam(const Point2D& point1, const Point2D& point2) {

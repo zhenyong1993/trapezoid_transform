@@ -23,7 +23,7 @@ int main()
 
     // std::cout << q.ToString() << " is " << (q.IsConvex() ? "" : "not ") << "convex" << std::endl;
 
-    auto sections = Quadrilateral::GetSections(a, b, 3);
+    auto sections = Geometry::GetSections(a, b, 3);
     for(Point2D section: sections) {
         std::cout << section.ToString() << std::endl;
     }
