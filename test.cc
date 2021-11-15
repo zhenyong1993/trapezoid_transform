@@ -75,7 +75,7 @@ void getData(double a_arg, double b_arg, double c_arg, double d_arg, double e_ar
 //a点经过斜率为k(resolution)的线到与ef点相交的坐标x,k=resolution
     double a_ef_x = (d - e*(f-d)/(b-e) + a*resolution)/(resolution + (d-f)/(b-e));
     c_ef = c_ef_x * resolution_diag / resolution_length;
-    a_ef = a_ef_x * resolution_diag / resolution_length;
+    a_ef = (a_ef_x-a) * resolution_diag / resolution_length;
 //    cout << "c_ef is " << c_ef << " , a_ef is " << a_ef << endl;
 
     double a_ce_x = (a*resolution-c)/((d-c)/e + resolution);
