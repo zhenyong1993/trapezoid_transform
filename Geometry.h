@@ -9,11 +9,12 @@
 
 class Geometry {
 public:
+    // p点是否在se线段上
     static bool IsPointInLine(const Point2d& p, const Point2d& s, const Point2d& e) {
-        double d1 = sqrt((p.x - s.x) * (p.x - s.x) + (p.y - s.y) * (p.y - s.y)); 
-        double d2 = sqrt((p.x - e.x) * (p.x - e.x) + (p.y - e.y) * (p.y - e.y));
-        double d3 = sqrt((s.x - e.x) * (s.x - e.x) + (s.y - e.y) * (s.y - e.y));
-        if(fabs(d1 + d2 - d3) <= DBL_EPSILON) {
+        double d1 = p.Distance(s); 
+        double d2 = p.Distance(e);
+        double d3 = s.Distance(e);
+        if(fabs(d1 + d2 - d3) <= EPSILON) {
             return true;
         }
         return false;

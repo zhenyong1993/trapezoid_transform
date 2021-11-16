@@ -71,7 +71,7 @@ std::vector<Point2d> Geometry::CalPointFromLineWithDistance(const Point2d& p, bo
 
     if (d < 0.0) {
         return points;
-    } else if (d <= DBL_EPSILON) {
+    } else if (d <= EPSILON) {
         points.emplace_back(p);
         return points;
     }

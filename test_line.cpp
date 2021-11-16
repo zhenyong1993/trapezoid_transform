@@ -62,7 +62,15 @@ int main()
     //     std::cout << "交点：" << p.x << ", " << p.y << std::endl; 
     // }
 
-    quad.MaxInnerRect({0.0, 0.5}, 4.0f / 3);
+    // auto vertices = quad.MaxInnerRect({0.0, 0.5}, 4.0f / 3);
+    // for(auto p: vertices) {
+    //     std::cout << "顶点：" << p.x << ", " << p.y << std::endl; 
+    // }
+
+    auto vertices = quad.MaxInnerRect(4.0f / 3);
+    for(auto p: vertices) {
+        std::cout << "顶点：" << p.x << ", " << p.y << std::endl; 
+    }
 
     return 0;
 }

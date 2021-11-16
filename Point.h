@@ -4,6 +4,7 @@
 #include <cmath>
 #include <string>
 #include <sstream>
+#include "Constants.h"
 
 class Point2d {
 public:
@@ -20,7 +21,7 @@ public:
     }
 
     bool Equals(double x, double y) const {
-        return ((fabs(this->x - x) <= DBL_EPSILON) && (fabs(this->y - y) <= DBL_EPSILON));
+        return ((fabs(this->x - x) <= EPSILON) && (fabs(this->y - y) <= EPSILON));
     }
 
     bool Equals(const Point2d& p) const {
