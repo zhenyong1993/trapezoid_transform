@@ -32,16 +32,6 @@ public:
         return ostr.str();
     }
 
-    // https://blog.csdn.net/Coding_Dreaming/article/details/50709640
-    bool IsConvex() const {
-        double t1 = (d.x - a.x) * (b.y - a.y) - (d.y - a.y) * (b.x - a.x);
-        double t2 = (a.x - b.x) * (c.y - b.y) - (a.y - b.y) * (c.x - b.x);
-        double t3 = (b.x - c.x) * (d.y - c.y) - (b.y - c.y) * (d.x - c.x);
-        double t4 = (c.x - d.x) * (a.y - d.y) - (c.y - d.y) * (a.x - d.x);
-
-        return (t1 * t2 * t3 * t4 > 0);
-    }
-
     // 返回四边形最大内接矩形（需保证该外接矩形的两条相邻边中，一条平行与x轴，另一条平行与y轴，并且宽高比为aspectRatio）的四个顶点，
     // 顺序为lb(坐下)->rb(右下)->rt(右上)->lt(左上)
     std::vector<Point2d> MaxInnerRect(double aspectRatio);
@@ -51,6 +41,20 @@ public:  //todo: 为方便单元测试，暂时改为public，最终改为privat
     // p是四边行上的点，返回经过该点的最大内接矩形（需保证该外接矩形的两条相邻边中，一条平行与x轴，另一条平行与y轴，并且宽高比为aspectRatio）的
     // 两个和p点相邻的顶点(第一个顶点的y坐标和p点相等，第二个顶点的x坐标和p点相等)
     std::vector<Point2d> MaxInnerRect(const Point2d&p, double aspectRatio);
+
+    // https://blog.csdn.net/Coding_Dreaming/article/details/50709640
+    bool IsConvex() {
+        static bool isFirst = true;
+        if (isFirst) {
+            double t1 = (d.x - a.x) * (b.y - a.y) - (d.y - a.y) * (b.x - a.x);
+            double t2 = (a.x - b.x) * (c.y - b.y) - (a.y - b.y) * (c.x - b.x);
+            double t3 = (b.x - c.x) * (d.y - c.y) - (b.y - c.y) * (d.x - c.x);
+            double t4 = (c.x - d.x) * (a.y - d.y) - (c.y - d.y) * (a.x - d.x);
+            isConvex = (t1 * t2 * t3 * t4 > 0);
+            isFirst = false;
+        }
+        return isConvex;
+    }
 
     // 判断p点是否在四边形的边上
     bool IsPointInEdges(const Point2d&p);
@@ -62,5 +66,8 @@ public:  //todo: 为方便单元测试，暂时改为public，最终改为privat
     // 分别表示四个点中的x坐标的最小值, x坐标的最大值, y坐标的最小值，ｙ坐标的最大值
     double minX, maxX, minY, maxY;
 
+    bool isConvex = false;
+
     static constexpr unsigned int DIVIDE_SECTIONS = 1000;
+    static constexpr unsigned long INFINITY_DISTANCE = 1000000;
 };

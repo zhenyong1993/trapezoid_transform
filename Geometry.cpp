@@ -1,13 +1,13 @@
 #include "Geometry.h"
 
 bool Geometry::Intersection(const Point2d& a, const Point2d& b, const Point2d& c, const Point2d& d, Point2d& p) {
-    int dx1 = b.x - a.x;
-    int dy1 = b.y - a.y;
+    double dx1 = b.x - a.x;
+    double dy1 = b.y - a.y;
 
-    int dx2 = d.x - c.x;
-    int dy2 = d.y - c.y;
+    double dx2 = d.x - c.x;
+    double dy2 = d.y - c.y;
 
-    if(dx1*dy2 == dx2*dy1) {
+    if(fabs(dx1*dy2 - dx2*dy1) <= EPSILON) {
         return false;
     }
 

@@ -6,7 +6,7 @@ std::vector<Point2d> Quadrilateral::LineIntersections(const Point2d& p, double k
 {
     std::vector<Point2d> intersections;
 
-    std::vector<Point2d> points = Geometry::CalPointFromLineWithDistance(p, isVertical, k, static_cast<double>(UINT32_MAX));
+    std::vector<Point2d> points = Geometry::CalPointFromLineWithDistance(p, isVertical, k, static_cast<double>(INFINITY_DISTANCE));
     if (points.size() != 2) {
         return intersections;
     }
@@ -39,6 +39,10 @@ bool Quadrilateral::IsPointInEdges(const Point2d&p)
 std::vector<Point2d> Quadrilateral::MaxInnerRect(const Point2d&p, double aspectRatio)
 {
     std::vector<Point2d> vertices;
+
+    if (!IsConvex()) {
+        return vertices;
+    }
 
     if (!IsPointInEdges(p)) {
         return vertices;
@@ -150,6 +154,11 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(const Point2d&p, double aspectR
 std::vector<Point2d> Quadrilateral::MaxInnerRect(double aspectRatio)
 {
     std::vector<Point2d> vertices;
+
+    if (!IsConvex()) {
+        return vertices;
+    }
+
     std::vector<Point2d> all_points;        // 四条边上的所有等分点
     std::vector<Point2d> oneline_points;    // 其中一条边上的等分点
     std::vector<Point2d> tmp_points;
@@ -177,6 +186,7 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(double aspectRatio)
         tmp_diag = tmp_points[0].Distance(tmp_points[1]);
         if (tmp_diag > max_diag) {
             max_points = tmp_points;
+            max_diag = tmp_diag;
         }
     }
 

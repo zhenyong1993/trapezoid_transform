@@ -55,18 +55,23 @@ int main()
     // }
 
     // Quadrilateral::LineIntersections
-    Quadrilateral quad({0.0, 0.0}, {1.0, 0.0}, {1.0, 1.0}, {0.0, 1.0});
-    std::cout << "is convex: " << quad.IsConvex() << std::endl;
+    // Quadrilateral quad({0.0, 0.0}, {1.0, 0.0}, {1.0, 1.0}, {0.0, 1.0});
+    // std::cout << "is convex: " << quad.IsConvex() << std::endl;
     // auto intersections = quad.LineIntersections({0.0, 0.5}, 1, false);
     // for(auto p: intersections) {
     //     std::cout << "交点：" << p.x << ", " << p.y << std::endl; 
     // }
-
     // auto vertices = quad.MaxInnerRect({0.0, 0.5}, 4.0f / 3);
     // for(auto p: vertices) {
     //     std::cout << "顶点：" << p.x << ", " << p.y << std::endl; 
     // }
+    // auto vertices = quad.MaxInnerRect(4.0f / 3);
+    // for(auto p: vertices) {
+    //     std::cout << "顶点：" << p.x << ", " << p.y << std::endl; 
+    // }
 
+    Quadrilateral quad({0.0, 1.0}, {1.0, 0.0}, {2.0, 1.0}, {1.0, 2.0});
+    std::cout << "is convex: " << quad.IsConvex() << std::endl;
     auto vertices = quad.MaxInnerRect(4.0f / 3);
     for(auto p: vertices) {
         std::cout << "顶点：" << p.x << ", " << p.y << std::endl; 
