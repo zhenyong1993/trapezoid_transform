@@ -3,13 +3,14 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <climits>
 
 #include "Point.h"
 
 class Quadrilateral {
 public:
     // a, b, c, d按逆时针顺序
-    Quadrilateral(const Point2D& a, const Point2D& b, const Point2D& c, const Point2D& d) {
+    Quadrilateral(const Point2d& a, const Point2d& b, const Point2d& c, const Point2d& d) {
         this->a = a;
         this->b = b;
         this->c = c;
@@ -44,18 +45,18 @@ public:
 
     // 返回四边形最大内接矩形（需保证该外接矩形的两条相邻边中，一条平行与x轴，另一条平行与y轴，并且宽高比为aspectRatio）的四个顶点，
     // 顺序为lb(坐下)->rb(右下)->rt(右上)->lt(左上)
-    std::vector<Point2D> MaxInnerRect(float aspectRatio);
+    std::vector<Point2d> MaxInnerRect(float aspectRatio);
 private:
     // 经过p点，斜率为k的直线和四边形的交点, isVertical为true表示直线斜率为无穷大，此时忽略k
-    std::vector<Point2D> LineIntersections(const Point2D& p, bool isVertical, float k);
+    std::vector<Point2d> LineIntersections(const Point2d& p, float k, bool isVertical = false);
     // p是四边行上的点，返回经过该点的最大内接矩形（需保证该外接矩形的两条相邻边中，一条平行与x轴，另一条平行与y轴，并且宽高比为aspectRatio）的
     // 两个和p点相邻的顶点(第一个顶点的y坐标和p点相等，第二个顶点的x坐标和p点相等)
-    std::vector<Point2D> MaxInnerRect(const Point2D&p, float aspectRatio);
+    std::vector<Point2d> MaxInnerRect(const Point2d&p, float aspectRatio);
 
     // 四边形的四个顶点，按逆时针顺序
-    Point2D a, b, c, d;
+    Point2d a, b, c, d;
     // 四边形最小外接矩形的四个顶点(需保证该外接矩形的两条相邻边中，一条平行与x轴，另一条平行与y轴)
-    Point2D A, B, C, D;
+    Point2d A, B, C, D;
     // 分别表示四个点中的x坐标的最小值, x坐标的最大值, y坐标的最小值，ｙ坐标的最大值
     double minX, maxX, minY, maxY;
 };

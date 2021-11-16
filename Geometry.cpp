@@ -1,39 +1,40 @@
 #include "Geometry.h"
 
-bool Geometry::intersection(const Point2D& start1, const Point2D& end1, const Point2D& start2, const Point2D& end2, Point2D& intersection) {
-    int dx1 = end1.x - start1.x;
-    int dy1 = end1.y - start1.y;
+bool Geometry::Intersection(const Point2d& a, const Point2d& b, const Point2d& c, const Point2d& d, Point2d& p) {
+    int dx1 = b.x - a.x;
+    int dy1 = b.y - a.y;
 
-    int dx2 = end2.x - start2.x;
-    int dy2 = end2.y - start2.y;
+    int dx2 = d.x - c.x;
+    int dy2 = d.y - c.y;
 
     if(dx1*dy2 == dx2*dy1) {
         return false;
     }
 
-    std::vector<double> p1 = getParam(start1, end1);
-    std::vector<double> p2 = getParam(start2, end2);
+    std::vector<double> p1 = GetParam(a, b);
+    std::vector<double> p2 = GetParam(c, d);
 
     double x = double(p2[2] * p1[1] - p1[2] * p2[1]) / double(p1[0] * p2[1] - p2[0] * p1[1]);
     double y = double(p1[2] * p2[0] - p2[2] * p1[0]) / double(p1[0] * p2[1] - p2[0] * p1[1]);
 
-    Point2D point{x, y};
-    if(isPointInLine(point, start1, end1) && isPointInLine(point, start2, end2)) {
-        intersection = point;
+    Point2d point{x, y};
+    if(IsPointInLine(point, a, b) && IsPointInLine(point, c, d)) {
+        p = point;
         return true;
     }
     return false;
 }
 
-std::vector<Point2D> Geometry::GetSections(const Point2D& a, const Point2D& b, unsigned int n)
+// a和b组成的线段n等分，输出等分点(如果a,b重合，输出a点，如果不重合，输出从a开始的n个点)
+std::vector<Point2d> Geometry::CalSections(const Point2d& a, const Point2d& b, unsigned int n)
 {
-    std::vector<Point2D> sections;
+    std::vector<Point2d> sections;
 
     if (n == 0) {
         return sections;
     }
 
-    sections.push_back(a);
+    sections.emplace_back(a);
     if (a.Equals(b)) {
         return sections;
     }
@@ -43,8 +44,56 @@ std::vector<Point2D> Geometry::GetSections(const Point2D& a, const Point2D& b, u
     for(; i <= n -1; i++) {
         x = (b.x - a.x) * i / n + a.x;
         y = (b.y - a.y) * i / n + a.y;
-        sections.push_back(Point2D(x, y));
+        sections.emplace_back(Point2d(x, y));
     }
 
     return sections;
+}
+
+// ab射线上与点a距离为d的点p
+bool Geometry::CalPointFromLineWithDistance(const Point2d& a, const Point2d& b, double d, Point2d& p)
+{
+    if (a == b || d < 0) {
+        return false;
+    }
+
+    Point2d D = b - a;
+    double t = d / D.Mod();
+    p = a + D.Scalar(t);
+
+    return true;
+}
+
+// 经过a且斜率为k(如果isVertical为true，表示斜率为无穷大)的直线上与点a距离为d的点
+std::vector<Point2d> Geometry::CalPointFromLineWithDistance(const Point2d& a, bool isVertical, double k, double d)
+{
+    std::vector<Point2d> points;
+
+    if (d < 0.0) {
+        return points;
+    } else if (d <= DBL_EPSILON) {
+        points.emplace_back(a);
+        return points;
+    }
+
+    Point2d p1, p2;
+
+    // p1和p2分别是直线上和a在两端的两个点
+    if (!isVertical) {
+        p1.Set(a.x + 1, k + a.y);
+        p2.Set(a.x - 1, -k + a.y);
+    } else {
+        p1.Set(a.x, a.y + 1);
+        p2.Set(a.x, a.y - 1);
+    }
+
+    Point2d p3, p4;
+    if (CalPointFromLineWithDistance(a, p1, d, p3)) {
+        points.emplace_back(p3);
+    }
+    if (CalPointFromLineWithDistance(a, p2, d, p4)) {
+        points.emplace_back(p4);
+    }
+
+    return points;
 }
