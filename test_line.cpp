@@ -41,18 +41,28 @@ int main()
     //     std::cout << "错误" << std::endl;
     // }
 
-    Point2d a(1, 1);
-	double d = 5;
+    // Point2d a(1, 1);
+	// double d = 5;
 
-    auto points = Geometry::CalPointFromLineWithDistance(a, false, 1, d);
-    for (auto p: points) {
-        std::cout << "计算的点为：" << p.x << ", " << p.y << std::endl; 
-    }
+    // auto points = Geometry::CalPointFromLineWithDistance(a, false, 1, d);
+    // for (auto p: points) {
+    //     std::cout << "计算的点为：" << p.x << ", " << p.y << std::endl; 
+    // }
 
-    points = Geometry::CalPointFromLineWithDistance(a, true, 0, d);
-    for (auto p: points) {
-        std::cout << "计算的点为：" << p.x << ", " << p.y << std::endl; 
-    }
+    // points = Geometry::CalPointFromLineWithDistance(a, true, 0, d);
+    // for (auto p: points) {
+    //     std::cout << "计算的点为：" << p.x << ", " << p.y << std::endl; 
+    // }
+
+    // Quadrilateral::LineIntersections
+    Quadrilateral quad({0.0, 0.0}, {1.0, 0.0}, {1.0, 1.0}, {0.0, 1.0});
+    std::cout << "is convex: " << quad.IsConvex() << std::endl;
+    // auto intersections = quad.LineIntersections({0.0, 0.5}, 1, false);
+    // for(auto p: intersections) {
+    //     std::cout << "交点：" << p.x << ", " << p.y << std::endl; 
+    // }
+
+    quad.MaxInnerRect({0.0, 0.5}, 4.0f / 3);
 
     return 0;
 }

@@ -32,6 +32,16 @@ public:
 		return Equals(p);
 	}
 
+    bool operator!=(const Point2d& p) const
+	{
+		return !(*this == p);
+	}
+
+    double Distance(const Point2d& p) const
+    {
+        return sqrt((this->x - p.x) * (this->x - p.x) + (this->y - p.y) * (this->y - p.y));
+    }
+
     // 向量相加
 	Point2d operator+(const Point2d& v) const
 	{

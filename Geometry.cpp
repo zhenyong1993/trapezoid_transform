@@ -64,15 +64,15 @@ bool Geometry::CalPointFromLineWithDistance(const Point2d& a, const Point2d& b, 
     return true;
 }
 
-// 经过a且斜率为k(如果isVertical为true，表示斜率为无穷大)的直线上与点a距离为d的点
-std::vector<Point2d> Geometry::CalPointFromLineWithDistance(const Point2d& a, bool isVertical, double k, double d)
+// 经过p且斜率为k(如果isVertical为true，表示斜率为无穷大)的直线上与点a距离为d的点
+std::vector<Point2d> Geometry::CalPointFromLineWithDistance(const Point2d& p, bool isVertical, double k, double d)
 {
     std::vector<Point2d> points;
 
     if (d < 0.0) {
         return points;
     } else if (d <= DBL_EPSILON) {
-        points.emplace_back(a);
+        points.emplace_back(p);
         return points;
     }
 
@@ -80,18 +80,18 @@ std::vector<Point2d> Geometry::CalPointFromLineWithDistance(const Point2d& a, bo
 
     // p1和p2分别是直线上和a在两端的两个点
     if (!isVertical) {
-        p1.Set(a.x + 1, k + a.y);
-        p2.Set(a.x - 1, -k + a.y);
+        p1.Set(p.x + 1, k + p.y);
+        p2.Set(p.x - 1, -k + p.y);
     } else {
-        p1.Set(a.x, a.y + 1);
-        p2.Set(a.x, a.y - 1);
+        p1.Set(p.x, p.y + 1);
+        p2.Set(p.x, p.y - 1);
     }
 
     Point2d p3, p4;
-    if (CalPointFromLineWithDistance(a, p1, d, p3)) {
+    if (CalPointFromLineWithDistance(p, p1, d, p3)) {
         points.emplace_back(p3);
     }
-    if (CalPointFromLineWithDistance(a, p2, d, p4)) {
+    if (CalPointFromLineWithDistance(p, p2, d, p4)) {
         points.emplace_back(p4);
     }
 

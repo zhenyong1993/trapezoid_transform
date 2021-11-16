@@ -3,7 +3,6 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#include <climits>
 
 #include "Point.h"
 
@@ -46,12 +45,15 @@ public:
     // 返回四边形最大内接矩形（需保证该外接矩形的两条相邻边中，一条平行与x轴，另一条平行与y轴，并且宽高比为aspectRatio）的四个顶点，
     // 顺序为lb(坐下)->rb(右下)->rt(右上)->lt(左上)
     std::vector<Point2d> MaxInnerRect(float aspectRatio);
-private:
+public:  //todo: 改为private
     // 经过p点，斜率为k的直线和四边形的交点, isVertical为true表示直线斜率为无穷大，此时忽略k
     std::vector<Point2d> LineIntersections(const Point2d& p, float k, bool isVertical = false);
     // p是四边行上的点，返回经过该点的最大内接矩形（需保证该外接矩形的两条相邻边中，一条平行与x轴，另一条平行与y轴，并且宽高比为aspectRatio）的
     // 两个和p点相邻的顶点(第一个顶点的y坐标和p点相等，第二个顶点的x坐标和p点相等)
     std::vector<Point2d> MaxInnerRect(const Point2d&p, float aspectRatio);
+
+    // 判断p点是否在四边形的边上
+    bool IsPointInEdges(const Point2d&p);
 
     // 四边形的四个顶点，按逆时针顺序
     Point2d a, b, c, d;
