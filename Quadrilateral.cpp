@@ -1,4 +1,5 @@
 #include "Quadrilateral.h"
+#include "spdlog/spdlog.h"
 #include "Geometry.h"
 
 // 经过p点，斜率为k的直线和四边形的交点, isVertical为true表示直线斜率为无穷大，此时忽略k，如果p点为四边形的顶点，返回的数组中可能有多个重复的p点
@@ -8,6 +9,7 @@ std::vector<Point2d> Quadrilateral::LineIntersections(const Point2d& p, double k
 
     std::vector<Point2d> points = Geometry::CalPointFromLineWithDistance(p, isVertical, k, static_cast<double>(INFINITY_DISTANCE));
     if (points.size() != 2) {
+        spdlog::warn("size is not 2");
         return intersections;
     }
 
@@ -25,10 +27,14 @@ std::vector<Point2d> Quadrilateral::LineIntersections(const Point2d& p, double k
         intersections.emplace_back(intersection);
     }
 
+    if (intersections.size() < 2) {
+        spdlog::warn("size is smaller than 2");
+    }
+
     return intersections;
 }
 
-bool Quadrilateral::IsPointInEdges(const Point2d&p)
+bool Quadrilateral::IsPointOnEdges(const Point2d&p)
 {
     return (Geometry::IsPointInLine(p, this->a, this->b) || Geometry::IsPointInLine(p, this->b, this->c) ||
             Geometry::IsPointInLine(p, this->c, this->d) || Geometry::IsPointInLine(p, this->d, this->a));
@@ -41,10 +47,12 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(const Point2d&p, double aspectR
     std::vector<Point2d> vertices;
 
     if (!IsConvex()) {
+        spdlog::debug("not convex");
         return vertices;
     }
 
-    if (!IsPointInEdges(p)) {
+    if (!IsPointOnEdges(p)) {
+        spdlog::debug("point not on edges");
         return vertices;
     }
 
@@ -52,7 +60,7 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(const Point2d&p, double aspectR
     std::vector<Point2d> vertical_points = LineIntersections(p, 0, true);
 
     if ((horizontal_points.size() < 2) || (vertical_points.size() < 2)) {
-        // todo: impossible??????
+        spdlog::warn("invalid horizontal points size, or invalid vertical points size");
         return vertices;
     }
 
@@ -69,6 +77,7 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(const Point2d&p, double aspectR
         }
     }
     if (!isValid) {
+        spdlog::debug("invalid horizontal point: {}", p.ToString());
         return vertices;
     }
 
@@ -83,6 +92,7 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(const Point2d&p, double aspectR
         }
     }
     if (!isValid) {
+        spdlog::debug("invalid vertical point: {}", p.ToString());
         return vertices;
     }
 
@@ -94,7 +104,7 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(const Point2d&p, double aspectR
     
     std::vector<Point2d> diagonal_points = LineIntersections(p, slope);
     if (diagonal_points.size() < 2) {
-        // todo: impossible???????
+        spdlog::debug("invalid diagonal point: {}, slope: {}", p.ToString(), slope);
         return vertices;
     }
 
@@ -109,6 +119,7 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(const Point2d&p, double aspectR
         }
     }
     if (!isValid) {
+        spdlog::warn("invalid diagonal point");
         return vertices;
     }
 
@@ -155,7 +166,10 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(double aspectRatio)
 {
     std::vector<Point2d> vertices;
 
+    spdlog::info("start to calc max inner rect, aspectRatio: {}", aspectRatio);
+
     if (!IsConvex()) {
+        spdlog::error("not convex");
         return vertices;
     }
 
@@ -177,10 +191,10 @@ std::vector<Point2d> Quadrilateral::MaxInnerRect(double aspectRatio)
 
     double max_diag = 0.0;
     double tmp_diag;
-    for(auto point: all_points) {
-        tmp_points = MaxInnerRect(point, aspectRatio);
+    for(auto p: all_points) {
+        tmp_points = MaxInnerRect(p, aspectRatio);
         if (tmp_points.size() != 2) {
-            // todo: impossible????????
+            spdlog::debug("no max inner rect with point: {}", p.ToString());
             continue;
         }
         tmp_diag = tmp_points[0].Distance(tmp_points[1]);

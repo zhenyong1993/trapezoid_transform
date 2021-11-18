@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
 #include "Geometry.h"
 #include "Quadrilateral.h"
 
@@ -70,12 +73,30 @@ int main()
     //     std::cout << "顶点：" << p.x << ", " << p.y << std::endl; 
     // }
 
+    auto console = spdlog::stdout_color_st("console");
+    console->set_level(spdlog::level::debug);
+    // trigger flush whenever errors or more severe messages are logged
+    console->flush_on(spdlog::level::err); 
+
+    // auto file_logger = spdlog::basic_logger_st("file_logger", "logs/basic-log.txt");
+    // file_logger->set_level(spdlog::level::info);
+
+    // 作为第三方库调用的时候，提供用户设置为file_logger
+    spdlog::set_default_logger(console);
+
+    // spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e][T%t][%@.%!][%^%L%$] %v");
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e][T%t][%s:%#:%!][%^%L%$] %v");
+
     Quadrilateral quad({0.0, 1.0}, {1.0, 0.0}, {2.0, 1.0}, {1.0, 2.0});
-    std::cout << "is convex: " << quad.IsConvex() << std::endl;
+    // use default logger
+    spdlog::info("Is convex: {}", quad.IsConvex());
+    // SPDLOG_LOGGER_INFO(console, "test");
     auto vertices = quad.MaxInnerRect(4.0f / 3);
     for(auto p: vertices) {
-        std::cout << "顶点：" << p.x << ", " << p.y << std::endl; 
+        spdlog::info("vertice: {}, {}", p.x, p.y);
     }
+
+    // spdlog::apply_all([&](std::shared_ptr<spdlog::logger> l) { l->info("apply all."); });
 
     return 0;
 }

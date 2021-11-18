@@ -57,7 +57,7 @@ public:  //todo: 为方便单元测试，暂时改为public，最终改为privat
     }
 
     // 判断p点是否在四边形的边上
-    bool IsPointInEdges(const Point2d&p);
+    bool IsPointOnEdges(const Point2d&p);
 
     // 四边形的四个顶点，按逆时针顺序
     Point2d a, b, c, d;
