@@ -78,18 +78,21 @@ private:
 
       if (level == "debug") {
         _logger->set_level(spdlog::level::debug);
+        _logger->flush_on(spdlog::level::debug);
       } else if (level == "info") {
         _logger->set_level(spdlog::level::info);
+        _logger->flush_on(spdlog::level::info);
       } else if (level == "warn") {
         _logger->set_level(spdlog::level::warn);
+        _logger->flush_on(spdlog::level::warn);
       } else if (level == "error") {
         _logger->set_level(spdlog::level::err);
+        _logger->flush_on(spdlog::level::err);
       } else {
         _logger->set_level(spdlog::level::info);
+        _logger->flush_on(spdlog::level::info);
       }
-      _logger->flush_on(spdlog::level::warn);
-    }
-    catch (const spdlog::spdlog_ex& ex) {
+    } catch (const spdlog::spdlog_ex& ex) {
       std::cout << "Log initialization failed: " << ex.what() << std::endl;
     }
   }

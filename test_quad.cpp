@@ -71,7 +71,7 @@ int main()
   //     std::cout << "顶点：" << p.x << ", " << p.y << std::endl;
   // }
 
-  RRLogger::GetInstance(true, "debug");
+  RRLogger::GetInstance(false, "debug");
 
   Quadrilateral quad({0.0, 1.0}, {1.0, 0.0}, {2.0, 1.0}, {1.0, 2.0});
   auto vertices = quad.MaxInnerRect(4.0f / 3);

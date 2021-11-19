@@ -8,7 +8,8 @@
 
 class Point2d {
 public:
-  Point2d(): x(0.0), y(0.0) {}
+  Point2d()
+    : x(0.0), y(0.0) {}
 
   Point2d(double x, double y)
   {
